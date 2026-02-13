@@ -13,3 +13,18 @@ function generateManifest() {
 }
 
 export default defineConfig({
+  root: "src",
+  build: {
+    outDir: "../dist",
+    emptyOutDir: true,
+  },
+  publicDir: "../public",
+  plugins: [
+    webExtension({
+      manifest: generateManifest,
+      watchFilePaths: ["package.json", "manifest.json"],
+      browser: "firefox"
+    }),
+  ],
+});
+
