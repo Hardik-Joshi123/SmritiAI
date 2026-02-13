@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "SmritiAI",
+  "version": "1.2",
+  "description": "Search Your Browser History with AI",
+  "icons": {
+    "48": "icon/48.png"
+  },
+  "permissions": [
+    "history",
+    "storage",
+    "tabs",
+    "<all_urls>"
+  ],
+  "sidebar_action": {
+    "default_icon": "icon/48.png",
+    "default_title": "SmritiAI",
