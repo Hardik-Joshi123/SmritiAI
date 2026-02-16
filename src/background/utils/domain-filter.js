@@ -65,3 +65,49 @@ export function matchesDomainFilter(page, domainFilter) {
   if (domainFilter.include.length > 0) {
     if (!domainFilter.include.includes(pageDomain)) {
       return false;
+    }
+  }
+
+  // If exclude list exists, page must not be in exclude list
+  if (domainFilter.exclude.length > 0) {
+    if (domainFilter.exclude.includes(pageDomain)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Apply domain filtering to search results
+ * @param {Array} pages - Array of page objects
+ * @param {string} domainFilterString - Domain filter string
+ * @returns {Array} Filtered pages
+ */
+export function applyDomainFilter(pages, domainFilterString) {
+  if (!domainFilterString) {
+    return pages;
+  }
+
+  const domainFilter = parseDomainFilter(domainFilterString);
+  return pages.filter(page => matchesDomainFilter(page, domainFilter));
+}
+
+/**
+ * Get unique domains from an array of pages
+ * @param {Array} pages - Array of page objects
+ * @returns {Array} Sorted array of unique domains
+ */
+export function getUniqueDomains(pages) {
+  const domains = new Set();
+  
+  for (const page of pages) {
+    const domain = extractDomain(page.url);
+    if (domain) {
+      domains.add(domain);
+    }
+  }
+  
+  return Array.from(domains).sort();
+}
+
