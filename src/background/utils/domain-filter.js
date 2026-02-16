@@ -31,3 +31,37 @@ export function parseDomainFilter(filterString) {
   }
 
   return { include, exclude };
+}
+
+/**
+ * Extract domain from a URL
+ * @param {string} url - Full URL
+ * @returns {string} Domain name (lowercase)
+ */
+export function extractDomain(url) {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname.toLowerCase();
+  } catch (error) {
+    console.warn('Invalid URL for domain extraction:', url);
+    return '';
+  }
+}
+
+/**
+ * Check if a page matches the domain filter criteria
+ * @param {Object} page - Page object with url property
+ * @param {Object} domainFilter - Parsed domain filter object
+ * @returns {boolean} True if page matches filter criteria
+ */
+export function matchesDomainFilter(page, domainFilter) {
+  if (!domainFilter || (!domainFilter.include.length && !domainFilter.exclude.length)) {
+    return true; // No filter applied
+  }
+
+  const pageDomain = extractDomain(page.url);
+  
+  // If include list exists, page must be in include list
+  if (domainFilter.include.length > 0) {
+    if (!domainFilter.include.includes(pageDomain)) {
+      return false;
