@@ -41,3 +41,47 @@ export function createStatusIndicator(type, text = '') {
       status.textContent = text;
   }
   
+  return status;
+}
+
+/**
+ * Set button state (text, disabled, spinner)
+ * @param {HTMLElement} button - Button element
+ * @param {HTMLElement} textElement - Text element inside button
+ * @param {HTMLElement} spinner - Spinner element
+ * @param {Object} state - Button state
+ */
+export function setButtonState(button, textElement, spinner, state) {
+  const { text, disabled, loading } = state;
+  
+  if (text) textElement.textContent = text;
+  button.disabled = disabled || false;
+  
+  if (loading) {
+    spinner.classList.remove('hidden');
+  } else {
+    spinner.classList.add('hidden');
+  }
+}
+
+/**
+ * Show/hide element with optional delay
+ * @param {HTMLElement} element - Element to toggle
+ * @param {boolean} show - Whether to show or hide
+ * @param {number} delay - Optional delay in ms
+ */
+export function toggleElement(element, show, delay = 0) {
+  const action = () => {
+    if (show) {
+      element.classList.remove('hidden');
+    } else {
+      element.classList.add('hidden');
+    }
+  };
+  
+  if (delay > 0) {
+    setTimeout(action, delay);
+  } else {
+    action();
+  }
+}
