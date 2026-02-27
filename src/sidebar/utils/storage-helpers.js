@@ -31,3 +31,36 @@ export function loadSettings() {
  */
 export function saveSettings(settings) {
   localStorage.setItem('smriti-settings', JSON.stringify(settings));
+}
+
+/**
+ * Get theme from localStorage
+ * @returns {string} Theme ('light' or 'dark')
+ */
+export function getTheme() {
+  return localStorage.getItem('sidebar-theme') || 'dark';
+}
+
+/**
+ * Save theme to localStorage
+ * @param {string} theme - Theme to save
+ */
+export function saveTheme(theme) {
+  localStorage.setItem('sidebar-theme', theme);
+}
+
+/**
+ * Check if this is the first time user
+ * @returns {boolean} True if first time
+ */
+export function isFirstTimeUser() {
+  return !localStorage.getItem('smriti-ai-first-time');
+}
+
+/**
+ * Mark user as not first time
+ */
+export function markNotFirstTime() {
+  localStorage.setItem('smriti-ai-first-time', 'false');
+}
+
