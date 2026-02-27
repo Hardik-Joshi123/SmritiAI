@@ -1,0 +1,20 @@
+import Dexie from 'dexie';
+
+export const db = new Dexie('smriti_ai_db');
+
+// The schema remains the same, as 'content' was not an indexed field.
+db.version(1).stores({
+  pages: '++id, &url, title, timestamp',
+});
+
+/**
+ * Adds or updates a page with its embedding in the database.
+ * The textContent is no longer saved.
+ * @param {object} pageData
+ * @param {string} pageData.url
+ * @param {string} pageData.title
+ * @param {Float32Array} pageData.embedding - The generated vector
+ * @returns {Promise<object>} The saved page data with ID
+ */
+export async function addOrUpdatePage(pageData) {
+  try {
