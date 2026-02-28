@@ -18,3 +18,24 @@ db.version(1).stores({
  */
 export async function addOrUpdatePage(pageData) {
   try {
+    // Destructure without textContent
+    const { url, title, embedding } = pageData;
+    const timestamp = new Date().toISOString();
+
+    // First, try to find existing page
+    const existingPage = await db.pages.where('url').equals(url).first();
+    
+    if (existingPage) {
+      // Update existing page
+      await db.pages.update(existingPage.id, {
+        title,
+        embedding,
+        timestamp,
+      });
+      
+      console.log(`Successfully updated embedding for: ${title}`);
+      
+      return {
+        id: existingPage.id,
+        url,
+        title,
