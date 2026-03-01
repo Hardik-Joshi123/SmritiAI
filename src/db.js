@@ -56,3 +56,14 @@ export async function addOrUpdatePage(pageData) {
       return {
         id,
         url,
+        title,
+        embedding,
+        timestamp,
+      };
+    }
+  } catch (error) {
+    console.error(`Failed to save page ${pageData.url}:`, error);
+    return null;
+  }
+}
+
