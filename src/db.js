@@ -39,3 +39,20 @@ export async function addOrUpdatePage(pageData) {
         id: existingPage.id,
         url,
         title,
+        embedding,
+        timestamp,
+      };
+    } else {
+      // Add new page
+      const id = await db.pages.add({
+        url,
+        title,
+        embedding,
+        timestamp,
+      });
+
+      console.log(`Successfully saved new embedding for: ${title}`);
+      
+      return {
+        id,
+        url,
