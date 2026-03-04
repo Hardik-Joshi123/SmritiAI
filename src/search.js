@@ -16,3 +16,21 @@ let HNSW_CONFIG = {
   M: 16, // M parameter for construction
   metric: 'cosine' // Use cosine distance for semantic similarity
 };
+
+// Search settings
+let searchSettings = {
+  searchResultCount: 5,
+  autoIndex: true
+};
+
+/**
+ * Initializes the HNSW search index.
+ * Loads the HNSW library and creates/loads the index with existing data.
+ */
+export async function initSearchIndex() {
+  try {
+    console.log('Loading HNSW library...');
+    hnswLib = await loadHnswlib();
+    
+    console.log('Initializing HNSW index...');
+    // Based on TypeScript definitions, HierarchicalNSW expects 3 parameters
