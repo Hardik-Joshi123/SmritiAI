@@ -34,3 +34,22 @@ export async function initSearchIndex() {
     
     console.log('Initializing HNSW index...');
     // Based on TypeScript definitions, HierarchicalNSW expects 3 parameters
+    hnswIndex = new hnswLib.HierarchicalNSW(HNSW_CONFIG.metric, HNSW_CONFIG.dimension, '');
+    // initIndex expects 4 parameters: maxElements, m, efConstruction, randomSeed
+    hnswIndex.initIndex(HNSW_CONFIG.maxElements, HNSW_CONFIG.M, HNSW_CONFIG.ef, 100);
+    
+    // Load existing pages into the index
+    await rebuildIndex();
+    
+    isIndexInitialized = true;
+    console.log('HNSW search index initialized successfully.');
+
+    // Flush any pages that arrived before initialization completed
+    if (pendingIndexQueue.length > 0) {
+      console.log(`Flushing ${pendingIndexQueue.length} queued pages into HNSW index...`);
+      for (const page of pendingIndexQueue.splice(0, pendingIndexQueue.length)) {
+        try {
+          await addPageToIndex(page);
+        } catch (e) {
+          console.warn('Failed to index queued page:', page?.url, e);
+        }
