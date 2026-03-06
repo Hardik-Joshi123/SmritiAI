@@ -53,3 +53,21 @@ export async function initSearchIndex() {
         } catch (e) {
           console.warn('Failed to index queued page:', page?.url, e);
         }
+      }
+    }
+  } catch (error) {
+    console.error('Failed to initialize HNSW index:', error);
+    throw error;
+  }
+}
+
+/**
+ * Rebuilds the HNSW index from all pages in the database.
+ * This is called during initialization to populate the index with existing data.
+ */
+async function rebuildIndex() {
+  try {
+    const pageCount = await db.pages.count();
+    console.log(`Rebuilding HNSW index with ${pageCount} existing pages...`);
+    
+    let processedCount = 0;
