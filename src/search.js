@@ -113,3 +113,26 @@ export async function searchPages(queryEmbedding, k = 5) {
       return [];
     }
     
+    // Get the actual page data from the database using the IDs
+    const pageIds = searchResult.neighbors;
+    const pages = await db.pages.where('id').anyOf(pageIds).toArray();
+    
+    // Sort pages by the order they appeared in search results
+    const sortedPages = pageIds.map(id => pages.find(page => page.id === id))
+                              .filter(page => page !== undefined);
+    
+    console.log(`Found ${sortedPages.length} similar pages using HNSW.`);
+    console.log('Search distances:', searchResult.distances);
+    
+    return sortedPages;
+  } catch (error) {
+    console.error('HNSW search failed:', error);
+    console.log('Falling back to database search...');
+    return await fallbackSearch(queryEmbedding, k);
+  }
+}
+
+/**
+ * Fallback search function using simple cosine similarity.
+ * Used when HNSW index is not available or fails.
+ */
