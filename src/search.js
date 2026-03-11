@@ -90,3 +90,26 @@ async function rebuildIndex() {
 
 /**
  * Searches for the k most similar pages using HNSW.
+ */
+export async function searchPages(queryEmbedding, k = 5) {
+  if (!isIndexInitialized || !hnswIndex) {
+    console.warn('HNSW index not initialized. Falling back to database search...');
+    return await fallbackSearch(queryEmbedding, k);
+  }
+
+  try {
+    console.log('Searching pages using HNSW...');
+    
+    // Convert query embedding to Float32Array if it isn't already
+    const queryVector = queryEmbedding instanceof Float32Array 
+      ? queryEmbedding 
+      : new Float32Array(queryEmbedding);
+    
+    // Search the HNSW index
+    const searchResult = hnswIndex.searchKnn(queryVector, k, undefined);
+    
+    if (!searchResult.neighbors || searchResult.neighbors.length === 0) {
+      console.log('No results found in HNSW search.');
+      return [];
+    }
+    
