@@ -182,3 +182,31 @@ function cosineSimilarity(vecA, vecB) {
 
   normA = Math.sqrt(normA);
   normB = Math.sqrt(normB);
+
+  if (normA === 0 || normB === 0) {
+    return 0;
+  }
+
+  return dotProduct / (normA * normB);
+}
+
+/**
+ * Adds a new page to the HNSW search index.
+ */
+export async function addPageToIndex(pageData) {
+  if (!isIndexInitialized || !hnswIndex) {
+  // Queue for later instead of dropping
+  pendingIndexQueue.push(pageData);
+  console.warn('HNSW index not initialized yet. Queued page for indexing later.');
+  return true;
+  }
+
+  try {
+    if (!pageData.embedding || pageData.embedding.length !== HNSW_CONFIG.dimension) {
+      console.error('Invalid embedding data for page:', pageData.title);
+      return;
+    }
+
+    const embedding = pageData.embedding instanceof Float32Array
+      ? pageData.embedding
+      : new Float32Array(pageData.embedding);
