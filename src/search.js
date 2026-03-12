@@ -159,3 +159,26 @@ async function fallbackSearch(queryEmbedding, k = 5) {
     .map(result => result.page);
 
   console.log(`Found ${results.length} similar pages using cosine similarity.`);
+  return results;
+}
+
+/**
+ * Calculates cosine similarity between two vectors (fallback function)
+ */
+function cosineSimilarity(vecA, vecB) {
+  if (vecA.length !== vecB.length) {
+    throw new Error('Vectors must have the same length');
+  }
+
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+
+  normA = Math.sqrt(normA);
+  normB = Math.sqrt(normB);
