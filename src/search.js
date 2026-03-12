@@ -210,3 +210,30 @@ export async function addPageToIndex(pageData) {
     const embedding = pageData.embedding instanceof Float32Array
       ? pageData.embedding
       : new Float32Array(pageData.embedding);
+
+    try {
+      hnswIndex.addPoint(embedding, pageData.id, false);
+      console.log(`Page "${pageData.title}" added to HNSW index.`);
+    } catch (err) {
+      // If the label already exists in the index, ignore gracefully
+      const msg = String(err?.message || err);
+      if (/already|exists/i.test(msg)) {
+        console.debug(`HNSW: label ${pageData.id} already indexed; skipping.`);
+      } else {
+        throw err;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to add page to HNSW index:', error);
+  }
+}
+
+/**
+ * Manually rebuilds the HNSW index.
+ * This is exposed for UI-triggered rebuilds.
+ */
+export async function manualRebuildIndex() {
+  return await initSearchIndex();
+}
+
+/**
