@@ -136,3 +136,26 @@ export async function searchPages(queryEmbedding, k = 5) {
  * Fallback search function using simple cosine similarity.
  * Used when HNSW index is not available or fails.
  */
+async function fallbackSearch(queryEmbedding, k = 5) {
+  console.log('Using fallback cosine similarity search...');
+  
+  const pages = await db.pages.toArray();
+  
+  if (pages.length === 0) {
+    console.log('No pages found in database.');
+    return [];
+  }
+
+  // Calculate cosine similarity for each page
+  const similarities = pages.map(page => ({
+    page,
+    similarity: cosineSimilarity(queryEmbedding, page.embedding)
+  }));
+
+  // Sort by similarity (highest first) and take top k results
+  const results = similarities
+    .sort((a, b) => b.similarity - a.similarity)
+    .slice(0, k)
+    .map(result => result.page);
+
+  console.log(`Found ${results.length} similar pages using cosine similarity.`);
