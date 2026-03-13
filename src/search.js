@@ -293,3 +293,30 @@ export async function exportAllData() {
     console.log(`Exported ${pages.length} pages`);
     return exportData;
   } catch (error) {
+    console.error('Error exporting data:', error);
+    throw error;
+  }
+}
+
+/**
+ * Imports data into the database.
+ */
+export async function importData(importData) {
+  try {
+    if (!importData.pages || !Array.isArray(importData.pages)) {
+      throw new Error('Invalid import data format');
+    }
+    
+    let imported = 0;
+    let skipped = 0;
+    
+    for (const pageData of importData.pages) {
+      try {
+        // Convert array back to Float32Array
+        const embedding = new Float32Array(pageData.embedding);
+        
+        // Check if page already exists
+        const existing = await db.pages.where('url').equals(pageData.url).first();
+        
+        if (!existing) {
+          await db.pages.add({
