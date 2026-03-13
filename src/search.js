@@ -320,3 +320,31 @@ export async function importData(importData) {
         
         if (!existing) {
           await db.pages.add({
+            url: pageData.url,
+            title: pageData.title,
+            timestamp: pageData.timestamp || new Date().toISOString(),
+            embedding: embedding
+          });
+          imported++;
+        } else {
+          skipped++;
+        }
+      } catch (error) {
+        console.warn('Failed to import page:', pageData.url, error);
+        skipped++;
+      }
+    }
+    
+    console.log(`Import completed: ${imported} imported, ${skipped} skipped`);
+    
+    // Trigger a rebuild if we imported data
+    if (imported > 0) {
+      await manualRebuildIndex();
+    }
+    
+    return { imported, skipped };
+  } catch (error) {
+    console.error('Error importing data:', error);
+    throw error;
+  }
+}
