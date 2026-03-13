@@ -265,3 +265,31 @@ export async function updateSearchSettings(newSettings) {
  */
 export function getSearchSettings() {
   return searchSettings;
+}
+
+/**
+ * Exports all data from the database.
+ */
+export async function exportAllData() {
+  try {
+    const pages = await db.pages.toArray();
+    
+    const exportData = {
+      version: '1.0',
+      exportDate: new Date().toISOString(),
+      settings: {
+        ...HNSW_CONFIG,
+        ...searchSettings
+      },
+      pages: pages.map(page => ({
+        id: page.id,
+        url: page.url,
+        title: page.title,
+        timestamp: page.timestamp,
+        embedding: Array.from(page.embedding) // Convert Float32Array to regular array
+      }))
+    };
+    
+    console.log(`Exported ${pages.length} pages`);
+    return exportData;
+  } catch (error) {
