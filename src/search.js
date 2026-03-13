@@ -237,3 +237,31 @@ export async function manualRebuildIndex() {
 }
 
 /**
+ * Updates search settings and applies them.
+ */
+export async function updateSearchSettings(newSettings) {
+  try {
+    // Update HNSW configuration
+    if (newSettings.hnswEf) HNSW_CONFIG.ef = newSettings.hnswEf;
+    if (newSettings.hnswM) HNSW_CONFIG.M = newSettings.hnswM;
+    if (newSettings.maxElements) HNSW_CONFIG.maxElements = newSettings.maxElements;
+    
+    // Update search settings
+    if (newSettings.searchResultCount) searchSettings.searchResultCount = newSettings.searchResultCount;
+    if (typeof newSettings.autoIndex === 'boolean') searchSettings.autoIndex = newSettings.autoIndex;
+    
+    console.log('Search settings updated:', { HNSW_CONFIG, searchSettings });
+    
+    // Note: HNSW parameters only take effect after a rebuild
+    return true;
+  } catch (error) {
+    console.error('Error updating search settings:', error);
+    throw error;
+  }
+}
+
+/**
+ * Gets current search settings.
+ */
+export function getSearchSettings() {
+  return searchSettings;
