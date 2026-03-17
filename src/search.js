@@ -403,3 +403,31 @@ export async function getIndexStats() {
         metadata: metadataMemory,
         total: embeddingMemory + metadataMemory
       };
+      
+      // Get oldest and newest entries using numeric comparison to avoid lexicographic sort issues
+      let minTs = Number.POSITIVE_INFINITY;
+      let maxTs = Number.NEGATIVE_INFINITY;
+      for (const p of pages) {
+        const t = new Date(p.timestamp).getTime();
+        if (!Number.isNaN(t)) {
+          if (t < minTs) minTs = t;
+          if (t > maxTs) maxTs = t;
+        }
+      }
+      stats.oldestEntry = Number.isFinite(minTs) ? new Date(minTs).toISOString() : null;
+      stats.newestEntry = Number.isFinite(maxTs) ? new Date(maxTs).toISOString() : null;
+    } else {
+      stats.validEmbeddings = 0;
+      stats.invalidEmbeddings = 0;
+      stats.approximateMemoryUsage = { embeddings: 0, metadata: 0, total: 0 };
+      stats.oldestEntry = null;
+      stats.newestEntry = null;
+    }
+
+    // HNSW specific stats
+    if (isIndexInitialized && hnswIndex) {
+      try {
+        stats.hnswCurrentCount = hnswIndex.getCurrentCount ? hnswIndex.getCurrentCount() : 'N/A';
+        stats.hnswMaxElements = hnswIndex.getMaxElements ? hnswIndex.getMaxElements() : HNSW_CONFIG.maxElements;
+      } catch (error) {
+        console.warn('Could not get HNSW stats:', error);
