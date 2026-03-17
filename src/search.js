@@ -348,3 +348,31 @@ export async function importData(importData) {
     throw error;
   }
 }
+
+/**
+ * Clears all data from the database and resets the index.
+ */
+export async function clearAllData() {
+  try {
+    // Clear the database
+    await db.pages.clear();
+    
+    // Reset the HNSW index
+    if (hnswIndex && hnswLib) {
+      hnswIndex = new hnswLib.HierarchicalNSW(HNSW_CONFIG.metric, HNSW_CONFIG.dimension, '');
+      hnswIndex.initIndex(HNSW_CONFIG.maxElements, HNSW_CONFIG.M, HNSW_CONFIG.ef, 100);
+      isIndexInitialized = true;
+    }
+    
+    console.log('All data cleared successfully');
+    return true;
+  } catch (error) {
+    console.error('Error clearing all data:', error);
+    throw error;
+  }
+}
+
+/**
+ * Gets statistics about the current index and database.
+ * @returns {Promise<object>} Index statistics
+ */
