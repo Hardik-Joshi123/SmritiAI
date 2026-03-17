@@ -376,3 +376,30 @@ export async function clearAllData() {
  * Gets statistics about the current index and database.
  * @returns {Promise<object>} Index statistics
  */
+export async function getIndexStats() {
+  try {
+    const stats = {
+      indexInitialized: isIndexInitialized,
+      hnswLibLoaded: hnswLib !== null,
+      indexExists: hnswIndex !== null,
+    };
+
+    // Get database stats
+    const pages = await db.pages.toArray();
+    stats.totalPages = pages.length;
+    
+    if (pages.length > 0) {
+      const validEmbeddings = pages.filter(page => 
+        page.embedding && page.embedding.length === HNSW_CONFIG.dimension
+      );
+      stats.validEmbeddings = validEmbeddings.length;
+      stats.invalidEmbeddings = pages.length - validEmbeddings.length;
+      
+      // Calculate approximate memory usage (rough estimate)
+      const embeddingMemory = validEmbeddings.length * HNSW_CONFIG.dimension * 4; // 4 bytes per float
+      const metadataMemory = pages.length * 200; // rough estimate for page metadata
+      stats.approximateMemoryUsage = {
+        embeddings: embeddingMemory,
+        metadata: metadataMemory,
+        total: embeddingMemory + metadataMemory
+      };
