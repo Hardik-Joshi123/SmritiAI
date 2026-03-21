@@ -14,3 +14,19 @@ if (typeof window.hasRun === 'undefined') {
     // 'article' will be null if Readability couldn't find an article.
     if (article && article.textContent.trim().length > 0) {
       const pageData = {
+        url: window.location.href,
+        title: article.title,
+        content: article.textContent,
+      };
+      
+      // Use browser.* namespace for sending the message
+      browser.runtime.sendMessage({ action: "processPageData", data: pageData });
+    }
+  } catch (e) {
+    // It's common for Readability to fail on pages that aren't articles,
+    // so we can often ignore these errors.
+    if (e.name !== 'TypeError') {
+        console.error("Error processing page with Readability: ", e);
+    }
+  }
+}
