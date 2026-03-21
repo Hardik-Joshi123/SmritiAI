@@ -431,3 +431,31 @@ export async function getIndexStats() {
         stats.hnswMaxElements = hnswIndex.getMaxElements ? hnswIndex.getMaxElements() : HNSW_CONFIG.maxElements;
       } catch (error) {
         console.warn('Could not get HNSW stats:', error);
+        stats.hnswCurrentCount = 'N/A';
+        stats.hnswMaxElements = HNSW_CONFIG.maxElements;
+      }
+    } else {
+      stats.hnswCurrentCount = 0;
+      stats.hnswMaxElements = HNSW_CONFIG.maxElements;
+    }
+
+    // Configuration info
+    stats.config = {
+      dimension: HNSW_CONFIG.dimension,
+      maxElements: HNSW_CONFIG.maxElements,
+      ef: HNSW_CONFIG.ef,
+      M: HNSW_CONFIG.M,
+      metric: HNSW_CONFIG.metric
+    };
+
+    return stats;
+  } catch (error) {
+    console.error('Error getting index stats:', error);
+    return {
+      error: error.message,
+      indexInitialized: false,
+      totalPages: 0
+    };
+  }
+}
+
