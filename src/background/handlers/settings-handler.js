@@ -9,3 +9,15 @@ import { createSuccessResponse, createErrorResponse } from '../utils/message-hel
  */
 export async function handleUpdateSettings(message, sender, sendResponse) {
     try {
+        console.log('Settings update requested from UI...');
+        
+        await updateSearchSettings(message.settings);
+        
+        console.log('Settings updated successfully.');
+        sendResponse(createSuccessResponse());
+    } catch (error) {
+        console.error('Failed to update settings:', error);
+        sendResponse(createErrorResponse(error));
+    }
+}
+
