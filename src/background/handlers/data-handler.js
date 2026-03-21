@@ -42,3 +42,22 @@ export async function handleImportData(message, sender, sendResponse) {
 }
 
 /**
+ * Handles clear all data requests from the UI
+ * @param {Object} message - The message
+ * @param {Object} sender - Message sender info
+ * @param {Function} sendResponse - Response callback
+ */
+export async function handleClearAllData(message, sender, sendResponse) {
+    try {
+        console.log('Clear all data requested from UI...');
+        
+        await clearAllData();
+        
+        console.log('All data cleared successfully.');
+        sendResponse(createSuccessResponse());
+    } catch (error) {
+        console.error('Failed to clear all data:', error);
+        sendResponse(createErrorResponse(error));
+    }
+}
+
