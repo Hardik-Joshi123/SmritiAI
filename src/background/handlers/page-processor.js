@@ -19,3 +19,24 @@ export async function handleProcessPageData(message, sender, sendResponse) {
         console.log('3. Embedding generated successfully.');
 
         const pageData = {
+            url: message.data.url,
+            title: message.data.title,
+            embedding: embedding.data,
+        };
+
+        const savedPage = await addOrUpdatePage(pageData);
+
+        // Add to search index efficiently with the page ID
+        if (savedPage && savedPage.id) {
+            await addPageToIndex({
+                ...pageData,
+                id: savedPage.id
+            });
+        }
+
+    } catch (error) {
+        console.error('Failed to process page data:', error);
+        throw error;
+    }
+}
+
