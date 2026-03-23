@@ -79,3 +79,24 @@ async function processHistoryItemsBatch(historyItems, sendResponse) {
             // Process each item in the batch
             for (const item of batch) {
                 try {
+                    // Skip items without proper title or URL
+                    if (!item.url || !item.title || item.title.trim() === '') {
+                        processedCount++;
+                        continue;
+                    }
+                    
+                    // Skip non-http/https URLs (file://, chrome://, etc.)
+                    if (!item.url.startsWith('http://') && !item.url.startsWith('https://')) {
+                        processedCount++;
+                        continue;
+                    }
+                    
+                    // Check if this URL is already indexed
+                    const { db } = await import('../../db.js');
+                    const existingPage = await db.pages.where('url').equals(item.url).first();
+                    
+                    if (existingPage) {
+                        processedCount++;
+                        continue; // Skip already indexed pages
+                    }
+                    
