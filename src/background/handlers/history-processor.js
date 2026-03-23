@@ -59,3 +59,23 @@ export async function handleProcessBrowserHistory(message, sender, sendResponse)
  * Process browser history items in batches with progress updates
  * @param {Array} historyItems - Array of history items to process
  * @param {Function} sendResponse - Response callback
+ */
+async function processHistoryItemsBatch(historyItems, sendResponse) {
+    const BATCH_SIZE = 10; // Process 10 items at a time
+    let processedCount = 0;
+    let successfullyProcessed = 0;
+    const totalItems = historyItems.length;
+
+    // Send initial response to confirm we're starting
+    sendResponse(createSuccessResponse({ totalItems }));
+
+    try {
+        // Load the embedding model
+        const extractor = await EmbeddingPipelineSingleton.getInstance();
+        
+        for (let i = 0; i < historyItems.length; i += BATCH_SIZE) {
+            const batch = historyItems.slice(i, i + BATCH_SIZE);
+            
+            // Process each item in the batch
+            for (const item of batch) {
+                try {
