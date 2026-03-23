@@ -100,3 +100,23 @@ async function processHistoryItemsBatch(historyItems, sendResponse) {
                         continue; // Skip already indexed pages
                     }
                     
+                    // Combine title and URL for embedding
+                    const textForEmbedding = `${item.title} - ${item.url}`;
+                    
+                    // Generate embedding
+                    const embedding = await extractor(textForEmbedding, { pooling: 'mean', normalize: true });
+                    
+                    // Save to database using the existing database function
+                    const savedPage = await addOrUpdatePage({
+                        url: item.url,
+                        title: item.title,
+                        embedding: embedding.data
+                    });
+                    
+                    if (savedPage) {
+                        // Add to search index
+                        await addPageToSearchIndex(savedPage);
+                        successfullyProcessed++;
+                    }
+                    
+                } catch (error) {
