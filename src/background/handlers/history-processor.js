@@ -38,3 +38,24 @@ export async function handleProcessBrowserHistory(message, sender, sendResponse)
             text: '',           // Empty text returns all history
             maxResults: 100000, // Large number to get as much as possible
             startTime: startTime // From calculated start time
+        });
+
+        console.log(`Found ${historyItems.length} history items to process`);
+        
+        // Start processing in batches
+        await processHistoryItemsBatch(historyItems, sendResponse);
+        
+    } catch (error) {
+        console.error('Failed to process browser history:', error);
+        browser.runtime.sendMessage({
+            type: 'history-processing-error',
+            error: error.message
+        });
+        sendResponse(createErrorResponse(error));
+    }
+}
+
+/**
+ * Process browser history items in batches with progress updates
+ * @param {Array} historyItems - Array of history items to process
+ * @param {Function} sendResponse - Response callback
