@@ -18,3 +18,23 @@ export async function handleProcessBrowserHistory(message, sender, sendResponse)
         let startTime = 0; // Default to all time
         
         if (message.timeRange && message.timeRange !== 'all') {
+            const timeRanges = {
+                'week': 7 * 24 * 60 * 60 * 1000,        // 7 days
+                'month': 30 * 24 * 60 * 60 * 1000,      // 30 days
+                '6months': 6 * 30 * 24 * 60 * 60 * 1000, // 6 months (approx)
+                'year': 365 * 24 * 60 * 60 * 1000,      // 1 year
+                '2years': 2 * 365 * 24 * 60 * 60 * 1000  // 2 years
+            };
+            
+            if (timeRanges[message.timeRange]) {
+                startTime = now - timeRanges[message.timeRange];
+            }
+        }
+        
+        console.log(`Processing history from: ${message.timeRange || 'all time'}`);
+        
+        // Query browser history using the history API
+        const historyItems = await browser.history.search({
+            text: '',           // Empty text returns all history
+            maxResults: 100000, // Large number to get as much as possible
+            startTime: startTime // From calculated start time
