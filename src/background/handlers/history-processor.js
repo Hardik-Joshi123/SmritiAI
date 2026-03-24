@@ -120,3 +120,25 @@ async function processHistoryItemsBatch(historyItems, sendResponse) {
                     }
                     
                 } catch (error) {
+                    console.error(`Failed to process history item: ${item.url}`, error);
+                }
+                
+                processedCount++;
+                
+                // Send progress update
+                browser.runtime.sendMessage({
+                    type: 'history-processing-progress',
+                    processed: processedCount,
+                    total: totalItems
+                });
+            }
+            
+            // Small delay between batches to avoid overwhelming the system
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        // Send completion message
+        browser.runtime.sendMessage({
+            type: 'history-processing-complete',
+            processedCount: successfullyProcessed,
+            totalCount: totalItems
