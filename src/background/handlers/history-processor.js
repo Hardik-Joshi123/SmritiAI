@@ -142,3 +142,29 @@ async function processHistoryItemsBatch(historyItems, sendResponse) {
             type: 'history-processing-complete',
             processedCount: successfullyProcessed,
             totalCount: totalItems
+        });
+        
+        console.log(`History processing complete: ${successfullyProcessed}/${totalItems} pages indexed`);
+        
+    } catch (error) {
+        console.error('Error during batch processing:', error);
+        browser.runtime.sendMessage({
+            type: 'history-processing-error',
+            error: error.message
+        });
+    }
+}
+
+/**
+ * Helper function to add a page to the search index
+ * @param {Object} pageData - Page data to add to index
+ */
+async function addPageToSearchIndex(pageData) {
+    try {
+        await addPageToIndex(pageData);
+    } catch (error) {
+        console.error('Failed to add page to search index:', error);
+        throw error;
+    }
+}
+
