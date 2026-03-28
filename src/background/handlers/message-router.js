@@ -23,3 +23,29 @@ export class MessageRouter {
         
         // Search operations
         this.handlers.set('search', handleSearch);
+        this.handlers.set('get-embedding', handleGetEmbedding);  // Note: message.type for this one
+        this.handlers.set('rebuild-index', handleRebuildIndex);
+        this.handlers.set('get-index-stats', handleGetIndexStats);
+        this.handlers.set('get-available-domains', handleGetAvailableDomains);
+        
+        // Settings
+        this.handlers.set('update-settings', handleUpdateSettings);
+        
+        // Data operations
+        this.handlers.set('export-data', handleExportData);
+        this.handlers.set('import-data', handleImportData);
+        this.handlers.set('clear-all-data', handleClearAllData);
+        
+        // History processing
+        this.handlers.set('process-browser-history', handleProcessBrowserHistory);
+    }
+
+    /**
+     * Route a message to the appropriate handler
+     * @param {Object} message - The message to route
+     * @param {Object} sender - Message sender info
+     * @param {Function} sendResponse - Response callback
+     * @returns {boolean} Whether the handler will send an async response
+     */
+    route(message, sender, sendResponse) {
+        // Determine the action key (handle both message.action and message.type)
