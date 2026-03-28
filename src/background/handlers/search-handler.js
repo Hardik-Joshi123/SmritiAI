@@ -78,3 +78,30 @@ export async function handleRebuildIndex(message, sender, sendResponse) {
         console.log('Rebuilding HNSW index requested from UI...');
         
         // Use the manual rebuild function
+        await manualRebuildIndex();
+        
+        console.log('HNSW index rebuild completed successfully.');
+        sendResponse(createSuccessResponse());
+    } catch (error) {
+        console.error('Failed to rebuild HNSW index:', error);
+        sendResponse(createErrorResponse(error));
+    }
+}
+
+/**
+ * Handles requests to get available domains from indexed pages
+ * @param {Object} message - The message
+ * @param {Object} sender - Message sender info
+ * @param {Function} sendResponse - Response callback
+ */
+export async function handleGetAvailableDomains(message, sender, sendResponse) {
+    try {
+        console.log('Getting available domains from indexed pages...');
+        
+        // Get all pages from the database
+        const pages = await db.pages.toArray();
+        
+        // Extract unique domains
+        const domains = getUniqueDomains(pages);
+        
+        console.log(`Found ${domains.length} unique domains`);
