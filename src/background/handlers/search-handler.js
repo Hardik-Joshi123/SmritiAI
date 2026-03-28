@@ -105,3 +105,30 @@ export async function handleGetAvailableDomains(message, sender, sendResponse) {
         const domains = getUniqueDomains(pages);
         
         console.log(`Found ${domains.length} unique domains`);
+        sendResponse(createSuccessResponse({ domains }));
+    } catch (error) {
+        console.error('Failed to get available domains:', error);
+        sendResponse(createErrorResponse(error));
+    }
+}
+
+/**
+ * Handles index stats requests from the UI
+ * @param {Object} message - The message
+ * @param {Object} sender - Message sender info
+ * @param {Function} sendResponse - Response callback
+ */
+export async function handleGetIndexStats(message, sender, sendResponse) {
+    try {
+        console.log('Index stats requested from UI...');
+        
+        const stats = await getIndexStats();
+        
+        console.log('Index stats retrieved successfully.');
+        sendResponse(createSuccessResponse({ stats }));
+    } catch (error) {
+        console.error('Failed to get index stats:', error);
+        sendResponse(createErrorResponse(error));
+    }
+}
+
