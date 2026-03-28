@@ -24,3 +24,30 @@ export async function handleSearch(message, sender, sendResponse) {
 
     // 2. Use our search function to find the top results
     const settings = getSearchSettings();
+    let resultCount = settings?.searchResultCount || 5;
+    
+    // If domain filtering is applied, search for more results to account for filtering
+    if (message.domainFilter) {
+        resultCount = Math.max(resultCount * 3, 15); // Get 3x more results for filtering
+    }
+    
+    const results = await searchPages(queryEmbedding.data, resultCount);
+    
+    // 3. Apply domain filtering if specified
+    let filteredResults = results;
+    if (message.domainFilter) {
+        filteredResults = applyDomainFilter(results, message.domainFilter);
+        // Limit to the original requested count after filtering
+        const originalCount = settings?.searchResultCount || 5;
+        filteredResults = filteredResults.slice(0, originalCount);
+        console.log(`Domain filtering: ${results.length} -> ${filteredResults.length} results`);
+    }
+    
+    console.log(`Search results found: ${filteredResults.length} pages`);
+    console.log("Search results:", filteredResults);
+    
+    // 4. Send the results back to the UI
+    sendResponse(filteredResults);
+}
+
+/**
