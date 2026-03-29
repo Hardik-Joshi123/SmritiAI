@@ -49,3 +49,37 @@ export class MessageRouter {
      */
     route(message, sender, sendResponse) {
         // Determine the action key (handle both message.action and message.type)
+        const actionKey = message.action || message.type;
+        
+        if (!actionKey) {
+            console.warn('Message received without action or type:', message);
+            return false;
+        }
+
+        const handler = this.handlers.get(actionKey);
+        
+        if (!handler) {
+            console.warn(`No handler found for action: ${actionKey}`);
+            return false;
+        }
+
+        // Special case for 'get-embedding' which doesn't return a promise in original code
+        if (actionKey === 'get-embedding') {
+            const asyncHandler = createAsyncHandler(handler);
+            return asyncHandler(message, sender, sendResponse);
+        }
+
+        // For processPageData, the original code doesn't send a response
+        if (actionKey === 'processPageData') {
+            handler(message, sender, sendResponse).catch(error => {
+                console.error('Failed to process page data:', error);
+            });
+            return false; // Don't wait for response
+        }
+
+        // For all other handlers, wrap in async handler
+        const asyncHandler = createAsyncHandler(handler);
+        return asyncHandler(message, sender, sendResponse);
+    }
+}
+
