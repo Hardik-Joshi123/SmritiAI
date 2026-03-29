@@ -7,3 +7,12 @@ globalThis.db = db;
 
 // Initialize the search index when the extension first starts up
 initSearchIndex();
+
+// Create message router instance
+const messageRouter = new MessageRouter();
+
+// Listen for messages from other parts of the extension
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    return messageRouter.route(message, sender, sendResponse);
+});
+
