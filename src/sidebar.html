@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="sidebar.css"/>
+  </head>
+  <body>
+    <!-- The main chat interface -->
+    <div id="chat-container">
+      <header id="sidebar-header">
+        <div class="header-left">
+          <div class="title-dropdown">
+            <h1 id="title-text">SmritiAI</h1>
+            <button id="dropdown-toggle" class="dropdown-arrow" title="Menu">▼</button>
+            <div id="dropdown-menu" class="dropdown-menu hidden">
+              <div class="dropdown-item" data-action="index-stats">
+                <span class="dropdown-item-text">Index Stats</span>
+                <span class="dropdown-item-status" id="stats-status"></span>
+              </div>
+              <div class="dropdown-item" data-action="settings">
+                <span class="dropdown-item-text">Settings</span>
+                <span class="dropdown-item-status" id="settings-status"></span>
+              </div>
+              <div class="dropdown-item" data-action="export-data">
+                <span class="dropdown-item-text">Export Data</span>
+                <span class="dropdown-item-status" id="export-status"></span>
+              </div>
