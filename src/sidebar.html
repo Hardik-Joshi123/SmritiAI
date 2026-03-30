@@ -107,3 +107,31 @@
                 <input type="checkbox" id="auto-index">
                 Auto-index new pages
               </label>
+              <span class="setting-help">Automatically add new pages to search index</span>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Index Management</h3>
+            <div class="setting-item">
+              <button id="rebuild-index-btn" class="btn-secondary">
+                <span id="rebuild-index-text">Rebuild Index</span>
+                <span id="rebuild-index-spinner" class="hidden"> 🔄</span>
+              </button>
+              <span class="setting-help">Rebuild the search index from all saved pages</span>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Browser History Processing</h3>
+            <div class="setting-item">
+              <label for="history-time-range">Process time range:</label>
+              <select id="history-time-range">
+                <option value="week" selected>Last Week</option>
+                <option value="month">Last Month</option>
+                <option value="6months">Last 6 Months</option>
+                <option value="year">Last Year</option>
+                <option value="2years">Last 2 Years</option>
+                <option value="all">All Time</option>
+              </select>
+              <span class="setting-help">Select the time period to process existing browser history</span>
