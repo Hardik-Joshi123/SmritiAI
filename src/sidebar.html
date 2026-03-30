@@ -25,3 +25,30 @@
                 <span class="dropdown-item-text">Export Data</span>
                 <span class="dropdown-item-status" id="export-status"></span>
               </div>
+              <div class="dropdown-item" data-action="import-data">
+                <span class="dropdown-item-text">Import Data</span>
+                <span class="dropdown-item-status" id="import-status"></span>
+              </div>
+              <div class="dropdown-item" data-action="clear-data">
+                <span class="dropdown-item-text">Clear All Data</span>
+                <span class="dropdown-item-status" id="clear-status"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button id="theme-toggle-btn" title="Toggle Theme">🌙</button>
+      </header>
+      <div id="chat-messages">
+        <div class="message received">Search your memories.</div>
+      </div>
+      <form id="chat-form">
+        <div class="input-container">
+          <input type="text" id="message-input" placeholder="Type a message or / for commands..." autocomplete="off">
+          <!-- Command dropdown menu -->
+          <div id="command-dropdown" class="command-dropdown hidden">
+            <div class="command-item" data-command="/clear">
+              <span class="command-name">/clear</span>
+              <span class="command-desc">Clear chat history</span>
+            </div>
+            <div class="command-item" data-command="/stats">
+              <span class="command-name">/stats</span>
