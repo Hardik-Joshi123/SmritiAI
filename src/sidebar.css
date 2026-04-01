@@ -1,0 +1,27 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --header-border-color: #e0e0e0;
+  --msg-received-bg: #e5e5ea;
+  --msg-sent-bg: #3e5975; /* Changed to blue for light mode */
+  --msg-sent-text: white;
+  --form-bg: #f9f9f9;
+  --input-border-color: #ccc;
+  --button-bg: #3e5975; /* Changed to blue for light mode */
+  --button-text: white;
+}
+
+body.dark-mode {
+  --bg-color: #1c1c1e;
+  --text-color: #e1e1e1;
+  --header-border-color: #3a3a3c;
+  --msg-received-bg: #2c2c2e;
+  --msg-sent-bg: #4a73a8; /* Made brighter blue for dark mode */
+  --msg-sent-text: white;
+  --form-bg: #121212;
+  --input-border-color: #3a3a3c;
+  --button-bg: #5a8bc4; /* Made brighter blue for dark mode */
+  --button-text: white;
+}
+
+html, body {
