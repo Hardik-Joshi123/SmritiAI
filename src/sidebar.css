@@ -133,3 +133,30 @@ html, body {
 
 .input-container {
   position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+#message-input {
+  width: 100%;
+  border: 1px solid var(--input-border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border-radius: 15px;
+  padding: 8px 12px;
+  box-sizing: border-box;
+}
+
+#chat-form button {
+  border: none;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  padding: 8px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* Command Dropdown Styles */
+.command-dropdown {
