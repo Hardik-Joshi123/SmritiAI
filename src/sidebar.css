@@ -106,3 +106,30 @@ html, body {
 }
 
 .message {
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.received {
+  background-color: var(--msg-received-bg);
+  align-self: flex-start;
+}
+
+.sent {
+  background-color: var(--msg-sent-bg);
+  color: var(--msg-sent-text);
+  align-self: flex-end;
+}
+
+#chat-form {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid var(--header-border-color);
+  background-color: var(--form-bg);
+  gap: 8px;
+}
+
+.input-container {
+  position: relative;
