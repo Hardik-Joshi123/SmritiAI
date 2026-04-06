@@ -242,3 +242,30 @@ body.dark-mode .message li:hover {
     text-decoration: none;
     font-weight: 500;
     display: block;
+    word-break: break-word;
+    transition: color 0.2s ease;
+}
+
+.message a:hover {
+    color: var(--text-color) !important;
+    text-decoration: underline;
+}
+
+/* Domain Filter Styles */
+.domain-filter-container {
+  margin: 8px 10px;
+  border-top: 1px solid var(--header-border-color);
+  padding-top: 8px;
+}
+
+.domain-filter-toggle {
+  margin-bottom: 8px;
+}
+
+.domain-filter-button {
+  background: transparent;
+  border: 1px solid var(--input-border-color);
+  color: var(--text-color);
+  padding: 6px 12px;
+  border-radius: 12px;
+  cursor: pointer;
