@@ -540,3 +540,30 @@ body.dark-mode .dropdown-menu {
 .settings-section {
   margin-bottom: 25px;
 }
+
+.settings-section h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.1em;
+  color: var(--button-bg);
+  border-bottom: 1px solid var(--header-border-color);
+  padding-bottom: 5px;
+}
+
+.setting-item {
+  margin-bottom: 15px;
+}
+
+.setting-item label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.setting-item input[type="number"],
+.setting-item input[type="text"],
+.setting-item select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 6px;
