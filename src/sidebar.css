@@ -431,3 +431,31 @@ body.dark-mode .dropdown-menu {
 }
 
 .dropdown-item-status {
+  font-size: 0.8em;
+  color: var(--button-bg);
+  font-weight: 500;
+}
+
+.dropdown-item.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.dropdown-item.disabled:hover {
+  background-color: transparent;
+}
+
+/* Spinner animation for rebuild status */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--header-border-color);
+  border-top: 2px solid var(--button-bg);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
