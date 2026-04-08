@@ -513,3 +513,30 @@ body.dark-mode .dropdown-menu {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: var(--msg-received-bg);
+}
+
+.modal-body {
+  padding: 20px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid var(--header-border-color);
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  background-color: var(--form-bg);
+}
+
+/* Settings Styles */
+.settings-section {
+  margin-bottom: 25px;
+}
