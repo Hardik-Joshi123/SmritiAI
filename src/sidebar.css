@@ -594,3 +594,30 @@ body.dark-mode .dropdown-menu {
   cursor: pointer;
   font-weight: 500;
   font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+}
+
+.btn-primary:hover {
+  background-color: var(--msg-sent-bg);
+}
+
+.btn-secondary {
+  background-color: var(--msg-received-bg);
+  color: var(--text-color);
+}
+
+.btn-secondary:hover {
+  opacity: 0.8;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
