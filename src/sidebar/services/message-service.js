@@ -52,3 +52,58 @@ export async function updateSettings(settings) {
     settings: settings
   });
 }
+
+/**
+ * Process browser history
+ * @param {string} timeRange - Time range to process
+ * @returns {Promise<Object>} Process response
+ */
+export async function processBrowserHistory(timeRange) {
+  return await browser.runtime.sendMessage({
+    action: 'process-browser-history',
+    timeRange: timeRange
+  });
+}
+
+/**
+ * Export all data
+ * @returns {Promise<Object>} Export response
+ */
+export async function exportData() {
+  return await browser.runtime.sendMessage({
+    action: 'export-data'
+  });
+}
+
+/**
+ * Import data
+ * @param {Object} data - Data to import
+ * @returns {Promise<Object>} Import response
+ */
+export async function importData(data) {
+  return await browser.runtime.sendMessage({
+    action: 'import-data',
+    data: data
+  });
+}
+
+/**
+ * Clear all data
+ * @returns {Promise<Object>} Clear response
+ */
+export async function clearAllData() {
+  return await browser.runtime.sendMessage({
+    action: 'clear-all-data'
+  });
+}
+
+/**
+ * Get available domains from indexed pages
+ * @returns {Promise<Object>} Available domains response
+ */
+export async function getAvailableDomains() {
+  return await browser.runtime.sendMessage({
+    action: 'get-available-domains'
+  });
+}
+
