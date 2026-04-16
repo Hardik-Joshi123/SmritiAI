@@ -27,3 +27,33 @@ export class ThemeManager {
   /**
    * Apply a theme
    * @param {string} theme - Theme to apply ('light' or 'dark')
+   */
+  applyTheme(theme) {
+    if (theme === 'dark') {
+      this.body.classList.add('dark-mode');
+      this.themeToggleButton.textContent = '🌙';
+    } else {
+      this.body.classList.remove('dark-mode');
+      this.themeToggleButton.textContent = '☀️';
+    }
+  }
+
+  /**
+   * Toggle between light and dark themes
+   */
+  toggleTheme() {
+    const isDarkMode = this.body.classList.contains('dark-mode');
+    const newTheme = isDarkMode ? 'light' : 'dark';
+    this.applyTheme(newTheme);
+    saveTheme(newTheme);
+  }
+
+  /**
+   * Get current theme
+   * @returns {string} Current theme
+   */
+  getCurrentTheme() {
+    return this.body.classList.contains('dark-mode') ? 'dark' : 'light';
+  }
+}
+
