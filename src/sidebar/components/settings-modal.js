@@ -103,3 +103,63 @@ export class SettingsModal {
     saveSettings(this.currentSettings);
     
     // Send updated settings to background script
+    try {
+      await updateBackgroundSettings(this.currentSettings);
+      this.hide();
+      this.chatInterface.addMessage('Settings saved successfully!', 'received');
+    } catch (error) {
+      console.error('Error saving settings:', error);
+      this.chatInterface.addMessage('Error saving settings. See console for details.', 'received');
+    }
+  }
+
+  /**
+   * Handle reset settings
+   */
+  handleResetSettings() {
+    if (this.confirmationModal) {
+      this.confirmationModal.show(
+        'Reset Settings',
+        'This will reset all settings to their default values. Continue?',
+        () => {
+          this.currentSettings = { ...DEFAULT_SETTINGS };
+          saveSettings(this.currentSettings);
+          this.updateSettingsUI();
+          this.chatInterface.addMessage('Settings reset to defaults.', 'received');
+        }
+      );
+    }
+  }
+
+  /**
+   * Handle rebuild index
+   */
+  async handleRebuildIndex() {
+    try {
+      setButtonState(
+        this.rebuildIndexBtn, 
+        this.rebuildIndexText, 
+        this.rebuildIndexSpinner,
+        { text: 'Rebuilding...', disabled: true, loading: true }
+      );
+
+      const response = await rebuildIndex();
+
+      if (response && response.success) {
+        setButtonState(
+          this.rebuildIndexBtn, 
+          this.rebuildIndexText, 
+          this.rebuildIndexSpinner,
+          { text: 'Rebuild Complete!', disabled: false, loading: false }
+        );
+        
+        setTimeout(() => {
+          setButtonState(
+            this.rebuildIndexBtn, 
+            this.rebuildIndexText, 
+            this.rebuildIndexSpinner,
+            { text: 'Rebuild Index', disabled: false, loading: false }
+          );
+        }, 2000);
+      } else {
+        this.handleRebuildError();
