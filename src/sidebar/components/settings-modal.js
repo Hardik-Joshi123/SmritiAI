@@ -163,3 +163,63 @@ export class SettingsModal {
         }, 2000);
       } else {
         this.handleRebuildError();
+      }
+    } catch (error) {
+      console.error('Error rebuilding index:', error);
+      this.handleRebuildError();
+    }
+  }
+
+  /**
+   * Handle rebuild error state
+   */
+  handleRebuildError() {
+    setButtonState(
+      this.rebuildIndexBtn, 
+      this.rebuildIndexText, 
+      this.rebuildIndexSpinner,
+      { text: 'Rebuild Failed', disabled: false, loading: false }
+    );
+    
+    setTimeout(() => {
+      setButtonState(
+        this.rebuildIndexBtn, 
+        this.rebuildIndexText, 
+        this.rebuildIndexSpinner,
+        { text: 'Rebuild Index', disabled: false, loading: false }
+      );
+    }, 3000);
+  }
+
+  /**
+   * Handle process browser history
+   */
+  async handleProcessHistory() {
+    try {
+      // Set initial state
+      setButtonState(
+        this.processHistoryBtn,
+        this.processHistoryText,
+        this.processHistorySpinner,
+        { text: 'Processing...', disabled: true, loading: true }
+      );
+      
+      this.historyProgressContainer.style.display = 'block';
+      this.historyProgressFill.style.width = '0%';
+      this.historyProgressText.textContent = 'Fetching browser history...';
+
+      const timeRange = this.historyTimeRange.value;
+      const response = await processBrowserHistory(timeRange);
+
+      if (response && response.success) {
+        this.setupHistoryProgressListener();
+      } else {
+        this.handleHistoryError('Processing Failed');
+      }
+    } catch (error) {
+      console.error('Error processing browser history:', error);
+      this.handleHistoryError('Processing Error');
+    }
+  }
+
+  /**
