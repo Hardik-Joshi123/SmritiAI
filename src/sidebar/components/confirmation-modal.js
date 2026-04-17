@@ -28,3 +28,34 @@ export class ConfirmationModal {
       }
     });
   }
+
+  /**
+   * Show confirmation modal
+   * @param {string} title - Modal title
+   * @param {string} message - Confirmation message
+   * @param {Function} onConfirm - Callback for confirmation
+   */
+  show(title, message, onConfirm) {
+    this.confirmTitle.textContent = title;
+    this.confirmMessage.textContent = message;
+    this.confirmationModal.classList.remove('hidden');
+    
+    // Remove any existing listeners and add new one
+    const newConfirmYes = this.confirmYes.cloneNode(true);
+    this.confirmYes.parentNode.replaceChild(newConfirmYes, this.confirmYes);
+    this.confirmYes = newConfirmYes;
+    
+    this.confirmYes.addEventListener('click', () => {
+      this.hide();
+      onConfirm();
+    });
+  }
+
+  /**
+   * Hide confirmation modal
+   */
+  hide() {
+    this.confirmationModal.classList.add('hidden');
+  }
+}
+
