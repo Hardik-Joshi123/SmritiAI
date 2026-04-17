@@ -223,3 +223,79 @@ export class SettingsModal {
   }
 
   /**
+   * Set up progress listener for history processing
+   */
+  setupHistoryProgressListener() {
+    const progressListener = (message) => {
+      if (message.type === 'history-processing-progress') {
+        const progress = Math.round((message.processed / message.total) * 100);
+        this.historyProgressFill.style.width = `${progress}%`;
+        this.historyProgressText.textContent = `Processing ${message.processed}/${message.total} pages (${progress}%)`;
+      } else if (message.type === 'history-processing-complete') {
+        browser.runtime.onMessage.removeListener(progressListener);
+        
+        setButtonState(
+          this.processHistoryBtn,
+          this.processHistoryText,
+          this.processHistorySpinner,
+          { text: `Processing Complete! (${message.processedCount} pages indexed)`, disabled: false, loading: false }
+        );
+        
+        this.historyProgressFill.style.width = '100%';
+        this.historyProgressText.textContent = `Successfully processed ${message.processedCount} pages from your browser history`;
+        
+        setTimeout(() => {
+          setButtonState(
+            this.processHistoryBtn,
+            this.processHistoryText,
+            this.processHistorySpinner,
+            { text: 'Process Browser History', disabled: false, loading: false }
+          );
+          this.historyProgressContainer.style.display = 'none';
+        }, 5000);
+      } else if (message.type === 'history-processing-error') {
+        browser.runtime.onMessage.removeListener(progressListener);
+        this.handleHistoryError('Processing Failed', message.error);
+      }
+    };
+
+    browser.runtime.onMessage.addListener(progressListener);
+  }
+
+  /**
+   * Handle history processing error
+   * @param {string} errorText - Error text to display
+   * @param {string} errorDetail - Detailed error message
+   */
+  handleHistoryError(errorText, errorDetail = null) {
+    setButtonState(
+      this.processHistoryBtn,
+      this.processHistoryText,
+      this.processHistorySpinner,
+      { text: errorText, disabled: false, loading: false }
+    );
+    
+    if (errorDetail) {
+      this.historyProgressText.textContent = errorDetail;
+    }
+    
+    setTimeout(() => {
+      setButtonState(
+        this.processHistoryBtn,
+        this.processHistoryText,
+        this.processHistorySpinner,
+        { text: 'Process Browser History', disabled: false, loading: false }
+      );
+      this.historyProgressContainer.style.display = 'none';
+    }, 5000);
+  }
+
+  /**
+   * Set confirmation modal reference (for dependency injection)
+   * @param {ConfirmationModal} confirmationModal - Confirmation modal instance
+   */
+  setConfirmationModal(confirmationModal) {
+    this.confirmationModal = confirmationModal;
+  }
+}
+
