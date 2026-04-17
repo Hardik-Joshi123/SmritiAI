@@ -43,3 +43,63 @@ export class SettingsModal {
 
   /**
    * Set up event listeners
+   */
+  setupEventListeners() {
+    // Modal controls
+    this.closeSettings.addEventListener('click', () => this.hide());
+    this.saveSettings.addEventListener('click', () => this.handleSaveSettings());
+    this.resetSettings.addEventListener('click', () => this.handleResetSettings());
+    
+    // Action buttons
+    this.rebuildIndexBtn.addEventListener('click', () => this.handleRebuildIndex());
+    this.processHistoryBtn.addEventListener('click', () => this.handleProcessHistory());
+    
+    // Close modal when clicking outside
+    this.settingsModal.addEventListener('click', (e) => {
+      if (e.target === this.settingsModal) {
+        this.hide();
+      }
+    });
+  }
+
+  /**
+   * Show the settings modal
+   */
+  show() {
+    this.updateSettingsUI();
+    this.settingsModal.classList.remove('hidden');
+  }
+
+  /**
+   * Hide the settings modal
+   */
+  hide() {
+    this.settingsModal.classList.add('hidden');
+  }
+
+  /**
+   * Update the settings UI with current values
+   */
+  updateSettingsUI() {
+    document.getElementById('search-result-count').value = this.currentSettings.searchResultCount;
+    document.getElementById('hnsw-ef').value = this.currentSettings.hnswEf;
+    document.getElementById('hnsw-m').value = this.currentSettings.hnswM;
+    document.getElementById('max-elements').value = this.currentSettings.maxElements;
+    document.getElementById('auto-index').checked = this.currentSettings.autoIndex;
+  }
+
+  /**
+   * Handle save settings
+   */
+  async handleSaveSettings() {
+    // Get values from form
+    this.currentSettings.searchResultCount = parseInt(document.getElementById('search-result-count').value);
+    this.currentSettings.hnswEf = parseInt(document.getElementById('hnsw-ef').value);
+    this.currentSettings.hnswM = parseInt(document.getElementById('hnsw-m').value);
+    this.currentSettings.maxElements = parseInt(document.getElementById('max-elements').value);
+    this.currentSettings.autoIndex = document.getElementById('auto-index').checked;
+    
+    // Save to localStorage
+    saveSettings(this.currentSettings);
+    
+    // Send updated settings to background script
