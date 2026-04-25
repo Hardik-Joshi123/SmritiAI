@@ -102,3 +102,55 @@ export class DomainFilter {
         this.hideSuggestions();
       }
     });
+
+    // Input events
+    this.input.addEventListener('input', () => {
+      this.showSuggestions();
+    });
+
+    this.input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.applyFilter();
+      } else if (e.key === 'Escape') {
+        this.hideSuggestions();
+      }
+    });
+
+    // Button events
+    applyBtn.addEventListener('click', () => this.applyFilter());
+    clearBtn.addEventListener('click', () => this.clearFilter());
+  }
+
+  /**
+   * Show domain suggestions based on input
+   */
+  showSuggestions() {
+    const inputValue = this.input.value.toLowerCase();
+    const lastTerm = inputValue.split(',').pop().trim();
+    
+    if (lastTerm.length < 1) {
+      this.hideSuggestions();
+      return;
+    }
+
+    // Filter domains that match the current input
+    const matchingDomains = this.availableDomains.filter(domain => 
+      domain.toLowerCase().includes(lastTerm.replace(/^-/, ''))
+    ).slice(0, 10); // Limit to 10 suggestions
+
+    if (matchingDomains.length === 0) {
+      this.hideSuggestions();
+      return;
+    }
+
+    // Create suggestion items
+    this.suggestionList.innerHTML = '';
+    matchingDomains.forEach(domain => {
+      const suggestion = createElement('div', {
+        className: 'domain-suggestion',
+        textContent: domain,
+        onclick: () => this.selectDomain(domain)
+      });
+      this.suggestionList.appendChild(suggestion);
+    });
