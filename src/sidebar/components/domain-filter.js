@@ -206,3 +206,55 @@ export class DomainFilter {
     this.hideSuggestions();
     this.updateToggleButton();
     
+    // Dispatch custom event
+    this.container.dispatchEvent(new CustomEvent('domainFilterCleared', {
+      bubbles: true
+    }));
+  }
+
+  /**
+   * Update the toggle button appearance
+   */
+  updateToggleButton() {
+    const toggleBtn = this.container.querySelector('#domain-filter-btn');
+    
+    if (this.currentFilter) {
+      toggleBtn.classList.add('active');
+      toggleBtn.title = `Domain Filter: ${this.currentFilter}`;
+    } else {
+      toggleBtn.classList.remove('active');
+      toggleBtn.title = 'Filter by domain';
+    }
+  }
+
+  /**
+   * Get the current domain filter
+   */
+  getCurrentFilter() {
+    return this.currentFilter;
+  }
+
+  /**
+   * Set the domain filter programmatically
+   */
+  setFilter(filter) {
+    this.input.value = filter;
+    this.currentFilter = filter;
+    this.updateToggleButton();
+  }
+
+  /**
+   * Get the container element for mounting
+   */
+  getElement() {
+    return this.container;
+  }
+
+  /**
+   * Refresh available domains
+   */
+  async refreshDomains() {
+    await this.loadAvailableDomains();
+  }
+}
+
