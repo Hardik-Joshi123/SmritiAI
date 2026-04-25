@@ -50,3 +50,55 @@ export class DomainFilter {
   createUI() {
     // Main container
     this.container = createElement('div', {
+      className: 'domain-filter-container',
+      innerHTML: `
+        <div class="domain-filter-toggle">
+          <button id="domain-filter-btn" class="domain-filter-button" title="Filter by domain">
+            🌐 Domain Filter
+          </button>
+        </div>
+        <div class="domain-filter-input-container hidden" id="domain-filter-input-container">
+          <input 
+            type="text" 
+            id="domain-filter-input" 
+            placeholder="Enter domains (e.g., example.com, -exclude.com)" 
+            autocomplete="off"
+          />
+          <div class="domain-filter-help">
+            <span>Use commas to separate domains. Prefix with '-' to exclude (e.g., github.com, -ads.com)</span>
+          </div>
+          <div class="domain-suggestions hidden" id="domain-suggestions"></div>
+          <div class="domain-filter-actions">
+            <button id="apply-domain-filter" class="btn-primary btn-small">Apply</button>
+            <button id="clear-domain-filter" class="btn-secondary btn-small">Clear</button>
+          </div>
+        </div>
+      `
+    });
+
+    // Get references to elements
+    this.input = this.container.querySelector('#domain-filter-input');
+    this.inputContainer = this.container.querySelector('#domain-filter-input-container'); // Store reference
+    this.suggestionList = this.container.querySelector('#domain-suggestions');
+  }
+
+  /**
+   * Attach event listeners
+   */
+  attachEventListeners() {
+    const toggleBtn = this.container.querySelector('#domain-filter-btn');
+    const applyBtn = this.container.querySelector('#apply-domain-filter');
+    const clearBtn = this.container.querySelector('#clear-domain-filter');
+
+    // Toggle domain filter visibility
+    toggleBtn.addEventListener('click', () => {
+      this.isVisible = !this.isVisible;
+      this.inputContainer.classList.toggle('hidden', !this.isVisible);
+      
+      if (this.isVisible) {
+        this.input.focus();
+        this.updateToggleButton();
+      } else {
+        this.hideSuggestions();
+      }
+    });
