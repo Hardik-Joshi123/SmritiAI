@@ -154,3 +154,55 @@ export class DomainFilter {
       });
       this.suggestionList.appendChild(suggestion);
     });
+
+    this.suggestionList.classList.remove('hidden');
+  }
+
+  /**
+   * Hide domain suggestions
+   */
+  hideSuggestions() {
+    this.suggestionList.classList.add('hidden');
+  }
+
+  /**
+   * Select a domain from suggestions
+   */
+  selectDomain(domain) {
+    const currentValue = this.input.value;
+    const terms = currentValue.split(',');
+    terms[terms.length - 1] = domain;
+    this.input.value = terms.join(', ') + ', ';
+    this.input.focus();
+    this.hideSuggestions();
+  }
+
+  /**
+   * Apply the domain filter
+   */
+  applyFilter() {
+    const filterValue = this.input.value.trim();
+    this.currentFilter = filterValue;
+    this.hideSuggestions();
+    this.updateToggleButton();
+    
+    // Close the domain filter UI after applying - use stored reference
+    this.isVisible = false;
+    this.inputContainer.classList.add('hidden');
+    
+    // Dispatch custom event to notify other components
+    this.container.dispatchEvent(new CustomEvent('domainFilterApplied', {
+      detail: { filter: filterValue },
+      bubbles: true
+    }));
+  }
+
+  /**
+   * Clear the domain filter
+   */
+  clearFilter() {
+    this.input.value = '';
+    this.currentFilter = '';
+    this.hideSuggestions();
+    this.updateToggleButton();
+    
