@@ -45,3 +45,51 @@ export class HeaderDropdown {
 
       // Handle different actions
       await this.handleAction(action);
+    });
+  }
+
+  /**
+   * Toggle dropdown open/closed
+   */
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+    this.dropdownToggle.classList.toggle('open', this.isDropdownOpen);
+    this.dropdownMenu.classList.toggle('hidden', !this.isDropdownOpen);
+  }
+
+  /**
+   * Close dropdown
+   */
+  closeDropdown() {
+    this.isDropdownOpen = false;
+    this.dropdownToggle.classList.remove('open');
+    this.dropdownMenu.classList.add('hidden');
+  }
+
+  /**
+   * Handle dropdown action
+   * @param {string} action - Action to handle
+   */
+  async handleAction(action) {
+    switch (action) {
+      case 'index-stats':
+        await this.statsHandler.showStats();
+        break;
+      case 'settings':
+        this.settingsModal.show();
+        break;
+      case 'export-data':
+        await this.dataHandler.handleExportData();
+        break;
+      case 'import-data':
+        this.dataHandler.handleImportData();
+        break;
+      case 'clear-data':
+        this.dataHandler.handleClearData();
+        break;
+      default:
+        console.warn(`Unknown action: ${action}`);
+    }
+  }
+}
+
