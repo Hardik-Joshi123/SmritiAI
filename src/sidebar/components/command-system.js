@@ -48,3 +48,54 @@ export class CommandSystem {
     const chatForm = document.getElementById('chat-form');
     const originalSubmitHandler = chatForm.onsubmit;
     
+    chatForm.addEventListener('submit', async (event) => {
+      const messageText = this.messageInput.value.trim();
+      if (messageText.startsWith('/')) {
+        event.preventDefault();
+        await this.handleSlashCommand(messageText);
+        this.messageInput.value = '';
+        return;
+      }
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!this.messageInput.contains(e.target) && !this.commandDropdown.contains(e.target)) {
+        this.hideCommandDropdown();
+      }
+    });
+  }
+
+  /**
+   * Handle command dropdown display
+   */
+  handleCommandDropdown() {
+    const value = this.messageInput.value;
+    
+    if (value.startsWith('/') && value.length > 0) {
+      const query = value.toLowerCase();
+      const filteredCommands = this.availableCommands.filter(cmd => 
+        cmd.command.startsWith(query) || query === '/'
+      );
+      
+      if (filteredCommands.length > 0) {
+        this.showCommandDropdown(filteredCommands);
+      } else {
+        this.hideCommandDropdown();
+      }
+    } else {
+      this.hideCommandDropdown();
+    }
+  }
+
+  /**
+   * Show command dropdown
+   * @param {Array} commands - Commands to show
+   */
+  showCommandDropdown(commands) {
+    this.commandDropdown.innerHTML = '';
+    
+    commands.forEach((cmd, index) => {
+      const item = document.createElement('div');
+      item.className = 'command-item';
+      item.dataset.command = cmd.command;
