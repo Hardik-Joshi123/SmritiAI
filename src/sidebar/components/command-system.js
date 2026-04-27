@@ -150,3 +150,54 @@ export class CommandSystem {
       const items = this.commandDropdown.querySelectorAll('.command-item');
       
       if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        this.selectedCommandIndex = Math.min(this.selectedCommandIndex + 1, items.length - 1);
+        this.updateCommandSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        this.selectedCommandIndex = Math.max(this.selectedCommandIndex - 1, -1);
+        this.updateCommandSelection(items);
+      } else if (e.key === 'Tab' || e.key === 'Enter') {
+        if (this.selectedCommandIndex >= 0 && this.selectedCommandIndex < items.length) {
+          e.preventDefault();
+          const selectedCommand = items[this.selectedCommandIndex].dataset.command;
+          this.messageInput.value = selectedCommand;
+          this.hideCommandDropdown();
+        }
+      } else if (e.key === 'Escape') {
+        this.hideCommandDropdown();
+      }
+    }
+  }
+
+  /**
+   * Update command selection visual state
+   * @param {NodeList} items - Command items
+   */
+  updateCommandSelection(items) {
+    items.forEach((item, index) => {
+      item.classList.toggle('selected', index === this.selectedCommandIndex);
+    });
+  }
+
+  /**
+   * Handle slash command execution
+   * @param {string} command - Command to execute
+   */
+  async handleSlashCommand(command) {
+    // Handle domain command with parameter
+    if (command.startsWith('/domain')) {
+      await this.handleDomainCommand(command);
+      return;
+    }
+
+    const commandMap = {
+      '/clear': this.handleClearCommand.bind(this),
+      '/stats': this.handleStatsCommand.bind(this),
+      '/settings': this.handleSettingsCommand.bind(this)
+    };
+
+    const handler = commandMap[command];
+    if (handler) {
+      await handler();
+    } else {
