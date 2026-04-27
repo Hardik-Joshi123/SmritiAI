@@ -99,3 +99,54 @@ export class CommandSystem {
       const item = document.createElement('div');
       item.className = 'command-item';
       item.dataset.command = cmd.command;
+      if (index === this.selectedCommandIndex) {
+        item.classList.add('selected');
+      }
+      
+      // Highlight matching text
+      const query = this.messageInput.value.toLowerCase();
+      let commandText = cmd.command;
+      if (query.length > 1) {
+        const matchIndex = cmd.command.toLowerCase().indexOf(query);
+        if (matchIndex !== -1) {
+          commandText = cmd.command.substring(0, matchIndex) + 
+                       '<strong>' + cmd.command.substring(matchIndex, matchIndex + query.length) + '</strong>' + 
+                       cmd.command.substring(matchIndex + query.length);
+        }
+      }
+      
+      item.innerHTML = `
+        <span class="command-name">${commandText}</span>
+        <span class="command-desc">${cmd.desc}</span>
+      `;
+      
+      item.addEventListener('click', () => {
+        this.messageInput.value = cmd.command;
+        this.hideCommandDropdown();
+        this.messageInput.focus();
+      });
+      
+      this.commandDropdown.appendChild(item);
+    });
+    
+    this.commandDropdown.classList.remove('hidden');
+    this.selectedCommandIndex = -1;
+  }
+
+  /**
+   * Hide command dropdown
+   */
+  hideCommandDropdown() {
+    this.commandDropdown.classList.add('hidden');
+    this.selectedCommandIndex = -1;
+  }
+
+  /**
+   * Handle keyboard navigation
+   * @param {KeyboardEvent} e - Keyboard event
+   */
+  handleKeyNavigation(e) {
+    if (!this.commandDropdown.classList.contains('hidden')) {
+      const items = this.commandDropdown.querySelectorAll('.command-item');
+      
+      if (e.key === 'ArrowDown') {
