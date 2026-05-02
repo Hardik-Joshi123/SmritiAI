@@ -26,3 +26,31 @@ export class ChatInterface {
     this.messageInput.addEventListener('input', () => {
       this.autoResizeInput();
     });
+  }
+
+  /**
+   * Set the domain filter component reference
+   * @param {DomainFilter} domainFilter - Domain filter component
+   */
+  setDomainFilter(domainFilter) {
+    this.domainFilter = domainFilter;
+  }
+
+  /**
+   * Handle form submission
+   * @param {Event} event - Form submit event
+   */
+  async handleFormSubmit(event) {
+    event.preventDefault();
+    const messageText = this.messageInput.value.trim();
+    if (!messageText) return;
+
+    // Handle slash commands (delegate to command handler)
+    if (messageText.startsWith('/')) {
+      // This will be handled by the command system
+      return;
+    }
+
+    // Handle regular search
+    await this.performSearch(messageText);
+  }
