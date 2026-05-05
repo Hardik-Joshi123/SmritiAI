@@ -54,3 +54,31 @@ export class ChatInterface {
     // Handle regular search
     await this.performSearch(messageText);
   }
+
+  /**
+   * Perform a search query
+   * @param {string} query - Search query
+   */
+  async performSearch(query) {
+    this.addMessage(query, 'sent');
+    this.clearInput();
+    
+    const thinkingMessage = this.addMessage('Thinking...', 'received');
+
+    try {
+      // Get domain filter if available
+      const domainFilter = this.domainFilter ? this.domainFilter.getCurrentFilter() : null;
+      
+      const results = await sendSearchQuery(query, domainFilter);
+      thinkingMessage.remove();
+      this.displayResults(results, domainFilter);
+    } catch (error) {
+      console.error('Error performing search:', error);
+      thinkingMessage.textContent = 'Search failed. See console for details.';
+    }
+  }
+
+  /**
+   * Add a message to the chat
+   * @param {string} text - Message text
+   * @param {string} type - Message type ('sent' | 'received')
