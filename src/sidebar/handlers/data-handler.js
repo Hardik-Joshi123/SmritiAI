@@ -45,3 +45,58 @@ export class DataHandler {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        exportStatus.innerHTML = '<span class="success-text">✓</span>';
+        setTimeout(() => exportStatus.textContent = '', 2000);
+      } else {
+        this.setExportError();
+      }
+    } catch (error) {
+      console.error('Error exporting data:', error);
+      this.setExportError();
+    }
+  }
+
+  /**
+   * Set export error state
+   */
+  setExportError() {
+    const exportStatus = document.getElementById('export-status');
+    exportStatus.innerHTML = '<span class="error-text">✗</span>';
+    setTimeout(() => exportStatus.textContent = '', 3000);
+  }
+
+  /**
+   * Handle data import (trigger file picker)
+   */
+  handleImportData() {
+    this.importFileInput.click();
+  }
+
+  /**
+   * Handle import file selection
+   * @param {Event} event - File input change event
+   */
+  async handleImportFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    try {
+      const importStatus = document.getElementById('import-status');
+      importStatus.innerHTML = '<span class="spinner"></span>';
+
+      const text = await file.text();
+      const data = JSON.parse(text);
+
+      const response = await importData(data);
+
+      if (response && response.success) {
+        importStatus.innerHTML = '<span class="success-text">✓</span>';
+        this.chatInterface.addMessage(`Successfully imported ${response.imported} pages!`, 'received');
+        setTimeout(() => importStatus.textContent = '', 2000);
+      } else {
+        this.setImportError();
+      }
+    } catch (error) {
+      console.error('Error importing data:', error);
