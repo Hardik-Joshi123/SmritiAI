@@ -82,3 +82,31 @@ export class ChatInterface {
    * Add a message to the chat
    * @param {string} text - Message text
    * @param {string} type - Message type ('sent' | 'received')
+   * @returns {HTMLElement} Created message element
+   */
+  addMessage(text, type) {
+    return appendMessage(text, type, this.chatMessages);
+  }
+
+  /**
+   * Display search results
+   * @param {Array} results - Search results
+   * @param {string} domainFilter - Applied domain filter (for display)
+   */
+  displayResults(results, domainFilter = null) {
+    if (!results || results.length === 0) {
+      let message = 'No results found.';
+      if (domainFilter) {
+        message += ` (with domain filter: ${domainFilter})`;
+      }
+      this.addMessage(message, 'received');
+      return;
+    }
+
+    const resultsMessageElement = document.createElement('div');
+    resultsMessageElement.classList.add('message', 'received');
+
+    // Add filter info if applied
+    if (domainFilter) {
+      const filterInfo = document.createElement('div');
+      filterInfo.style.fontSize = '0.85em';
