@@ -110,3 +110,40 @@ export class ChatInterface {
     if (domainFilter) {
       const filterInfo = document.createElement('div');
       filterInfo.style.fontSize = '0.85em';
+      filterInfo.style.opacity = '0.7';
+      filterInfo.style.marginBottom = '8px';
+      filterInfo.textContent = `Filtered by: ${domainFilter}`;
+      resultsMessageElement.appendChild(filterInfo);
+    }
+
+    const ul = document.createElement('ul');
+    results.forEach(page => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = page.url;
+      a.textContent = page.title;
+      a.title = page.url;
+      a.target = '_blank';
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+    
+    resultsMessageElement.appendChild(ul);
+    this.chatMessages.appendChild(resultsMessageElement);
+    this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+  }
+
+  /**
+   * Clear the input field
+   */
+  clearInput() {
+    this.messageInput.value = '';
+    this.autoResizeInput();
+  }
+
+  /**
+   * Auto-resize the input field
+   */
+  autoResizeInput() {
+    this.messageInput.style.height = 'auto';
+    this.messageInput.style.height = `${this.messageInput.scrollHeight}px`;
