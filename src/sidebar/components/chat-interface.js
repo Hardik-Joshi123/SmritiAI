@@ -147,3 +147,41 @@ export class ChatInterface {
   autoResizeInput() {
     this.messageInput.style.height = 'auto';
     this.messageInput.style.height = `${this.messageInput.scrollHeight}px`;
+  }
+
+  /**
+   * Clear all chat messages except the greeting
+   */
+  clearChat() {
+    this.chatMessages.innerHTML = '<div class="message received">Search your memories.</div>';
+  }
+
+  /**
+   * Show first time welcome message
+   */
+  showFirstTimeWelcome() {
+    const welcomeMessage = document.createElement('div');
+    welcomeMessage.className = 'message received';
+    welcomeMessage.innerHTML = `
+      <div class="first-time-welcome">
+        <p><strong>Welcome to SmritiAI! 🧠</strong></p>
+        <p>I can help you search through your browsing history using AI. To get started, would you like me to process your existing browser history?</p>
+        <div class="welcome-actions">
+          <button id="welcome-process-history" class="btn-primary" style="margin: 8px 4px;">
+            📚 Process My History
+          </button>
+          <button id="welcome-skip" class="btn-secondary" style="margin: 8px 4px;">
+            ⏭️ Skip for Now
+          </button>
+        </div>
+        <p><small>You can always process your history later from Settings → Browser History Processing</small></p>
+      </div>
+    `;
+    
+    this.chatMessages.appendChild(welcomeMessage);
+    this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+
+    return welcomeMessage;
+  }
+}
+
