@@ -100,3 +100,58 @@ export class DataHandler {
       }
     } catch (error) {
       console.error('Error importing data:', error);
+      this.setImportError();
+    }
+
+    // Reset file input
+    event.target.value = '';
+  }
+
+  /**
+   * Set import error state
+   */
+  setImportError() {
+    const importStatus = document.getElementById('import-status');
+    importStatus.innerHTML = '<span class="error-text">✗</span>';
+    setTimeout(() => importStatus.textContent = '', 3000);
+  }
+
+  /**
+   * Handle clear all data
+   */
+  handleClearData() {
+    this.confirmationModal.show(
+      'Clear All Data',
+      'This will permanently delete all saved pages, embeddings, and search index. This action cannot be undone. Are you sure?',
+      async () => {
+        try {
+          const clearStatus = document.getElementById('clear-status');
+          clearStatus.innerHTML = '<span class="spinner"></span>';
+
+          const response = await clearAllData();
+
+          if (response && response.success) {
+            clearStatus.innerHTML = '<span class="success-text">✓</span>';
+            this.chatInterface.addMessage('All data has been cleared successfully.', 'received');
+            setTimeout(() => clearStatus.textContent = '', 2000);
+          } else {
+            this.setClearError();
+          }
+        } catch (error) {
+          console.error('Error clearing data:', error);
+          this.setClearError();
+        }
+      }
+    );
+  }
+
+  /**
+   * Set clear error state
+   */
+  setClearError() {
+    const clearStatus = document.getElementById('clear-status');
+    clearStatus.innerHTML = '<span class="error-text">✗</span>';
+    setTimeout(() => clearStatus.textContent = '', 3000);
+  }
+}
+
