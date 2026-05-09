@@ -36,3 +36,53 @@ class SidebarApp {
   /**
    * Initialize all components
    */
+  async initializeComponents() {
+    // Core UI components
+    this.components.theme = new ThemeManager();
+    this.components.chat = new ChatInterface();
+    this.components.confirmationModal = new ConfirmationModal();
+    
+    // Initialize domain filter and wait for it to complete
+    this.components.domainFilter = new DomainFilter();
+    await this.components.domainFilter.init();
+    
+    // Handlers
+    this.handlers.stats = new StatsHandler(this.components.chat);
+    this.handlers.data = new DataHandler(this.components.chat, this.components.confirmationModal);
+    
+    // Modal components (need handlers as dependencies)
+    this.components.settingsModal = new SettingsModal(this.components.chat);
+    this.components.settingsModal.setConfirmationModal(this.components.confirmationModal);
+    
+    // Header dropdown (needs multiple dependencies)
+    this.components.headerDropdown = new HeaderDropdown(
+      this.handlers.stats,
+      this.components.settingsModal,
+      this.handlers.data
+    );
+    
+    // Command system (needs multiple dependencies)
+    this.components.commandSystem = new CommandSystem(
+      this.components.chat,
+      this.handlers.stats,
+      this.components.settingsModal
+    );
+    
+    // First time handler
+    this.handlers.firstTime = new FirstTimeHandler(
+      this.components.chat,
+      this.components.settingsModal
+    );
+  }
+
+  /**
+   * Set up component dependencies and cross-references
+   */
+  setupDependencies() {
+    // Set domain filter reference in chat interface and command system
+    this.components.chat.setDomainFilter(this.components.domainFilter);
+    this.components.commandSystem.setDomainFilter(this.components.domainFilter);
+    
+    // Mount domain filter in the UI
+    this.mountDomainFilter();
+    
