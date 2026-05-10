@@ -86,3 +86,42 @@ class SidebarApp {
     // Mount domain filter in the UI
     this.mountDomainFilter();
     
+    // Set up domain filter event listeners
+    this.setupDomainFilterEvents();
+  }
+
+  /**
+   * Mount the domain filter component in the UI
+   */
+  mountDomainFilter() {
+    const chatContainer = document.getElementById('chat-container');
+    const chatMessages = document.getElementById('chat-messages');
+    
+    // Insert domain filter between header and messages
+    const domainFilterElement = this.components.domainFilter.getElement();
+    chatContainer.insertBefore(domainFilterElement, chatMessages);
+  }
+
+  /**
+   * Set up domain filter event listeners
+   */
+  setupDomainFilterEvents() {
+    const domainFilterElement = this.components.domainFilter.getElement();
+    
+    // Listen for domain filter events
+    domainFilterElement.addEventListener('domainFilterApplied', (event) => {
+      console.log('Domain filter applied:', event.detail.filter);
+    });
+    
+    domainFilterElement.addEventListener('domainFilterCleared', () => {
+      console.log('Domain filter cleared');
+    });
+  }
+}
+
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', async () => {
+  const app = new SidebarApp();
+  await app.init();
+});
+
