@@ -39,3 +39,14 @@ async function packageExtension() {
         });
       } else {
         console.log(`  📄 ${file.name}`);
+      }
+    });
+    
+  } catch (error) {
+    console.error('❌ Packaging failed:', error);
+    process.exit(1);
+  }
+}
+
+packageExtension();
+
