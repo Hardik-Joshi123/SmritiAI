@@ -18,3 +18,24 @@ async function packageExtension() {
     
     console.log(`📁 Zipping contents of 'dist/' directory...`);
     await zip('dist', zipName);
+    
+    console.log(`✅ Extension packaged successfully: ${zipName}`);
+    console.log('📤 Ready to upload to Firefox Add-ons store!');
+    
+    // Show file size
+    const stats = fs.statSync(zipName);
+    const sizeInMB = (stats.size / 1024 / 1024).toFixed(2);
+    console.log(`📊 File size: ${sizeInMB} MB`);
+    
+    // Show what was packaged
+    console.log('\n📋 Package contents:');
+    const distFiles = fs.readdirSync('dist', { withFileTypes: true });
+    distFiles.forEach(file => {
+      if (file.isDirectory()) {
+        console.log(`  📁 ${file.name}/`);
+        const subFiles = fs.readdirSync(path.join('dist', file.name));
+        subFiles.forEach(subFile => {
+          console.log(`    📄 ${subFile}`);
+        });
+      } else {
+        console.log(`  📄 ${file.name}`);
