@@ -64,3 +64,20 @@ SmritiAI is a Firefox browser extension that uses AI-powered semantic search to 
    - Handles unique URL constraints and updates
 
 5. **Search Engine** (`src/search.js`)
+   - Implements HNSW vector search algorithm
+   - Provides semantic similarity search capabilities
+   - Handles index management and rebuilding
+
+### Technology Stack
+
+- **AI/ML**: @xenova/transformers (Transformer.js) with all-MiniLM-L6-v2 model
+- **Vector Search**: hnswlib-wasm for efficient similarity search
+- **Database**: Dexie (IndexedDB) for local storage
+- **Content Extraction**: @mozilla/readability
+- **Build Tool**: Vite with web extension plugin
+- **UI**: Vanilla JavaScript with modern CSS
+- **Architecture**: Modular ES6 modules with clear separation of concerns
+
+### Modular Architecture Benefits
+
+- **Maintainability**: Each module has a single responsibility and clear interface
