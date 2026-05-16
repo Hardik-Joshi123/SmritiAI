@@ -47,3 +47,20 @@ SmritiAI is a Firefox browser extension that uses AI-powered semantic search to 
      - `header-dropdown.js`: Main navigation dropdown
      - `theme-manager.js`: Dark/light theme management
    - **handlers/**: UI-specific handlers
+     - `first-time-handler.js`: Welcome experience for new users
+     - `stats-handler.js`: Index statistics display
+     - `data-handler.js`: Data export/import UI logic
+   - **services/**: UI services
+     - `message-service.js`: Communication with background script
+   - **utils/**: UI utility functions for DOM and storage operations
+
+3. **Content Script** (`src/content.js`)
+   - Extracts readable content from web pages using Mozilla Readability
+   - Sends processed content to background script for indexing
+
+4. **Database Layer** (`src/db.js`)
+   - Uses Dexie (IndexedDB wrapper) for local data storage
+   - Stores page metadata and embeddings
+   - Handles unique URL constraints and updates
+
+5. **Search Engine** (`src/search.js`)
