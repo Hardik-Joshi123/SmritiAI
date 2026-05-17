@@ -81,3 +81,19 @@ SmritiAI is a Firefox browser extension that uses AI-powered semantic search to 
 ### Modular Architecture Benefits
 
 - **Maintainability**: Each module has a single responsibility and clear interface
+- **Testability**: Components can be tested in isolation
+- **Scalability**: Easy to add new features without touching existing code
+- **Code Organization**: Related functionality grouped together
+- **Performance**: Only load required modules when needed
+
+## 🚀 Installation
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- Firefox browser
+
+### Development Setup
+
+1. **Clone the repository**
