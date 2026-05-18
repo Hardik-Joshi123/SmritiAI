@@ -97,3 +97,20 @@ SmritiAI is a Firefox browser extension that uses AI-powered semantic search to 
 ### Development Setup
 
 1. **Clone the repository**
+   ```bash
+   git clone https://github.com/PranavInani/SmritiAI.git
+   cd SmritiAI
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Build the extension**
+   ```bash
+   npm run build
+   ```
+
+4. **Load in Firefox**
+   - Open Firefox
