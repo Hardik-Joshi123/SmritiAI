@@ -147,3 +147,20 @@ You can skip this step and process your history later from the settings.
 ### Slash Commands
 
 - `/clear` - Clear chat history
+- `/stats` - Show index statistics
+- `/settings` - Open settings panel
+- `/domain` - Show current domain filter status
+- `/domain:example.com` - Filter results to specific domain
+- `/domain:clear` - Clear domain filters
+
+### Domain Filtering
+
+SmritiAI supports powerful domain filtering to help you focus on specific websites or exclude unwanted results:
+
+#### **Filter Syntax**
+- **Include domains**: `github.com,stackoverflow.com`
+- **Exclude domains**: `-ads.com,-tracker.com`
+- **Mixed filtering**: `github.com,wikipedia.org,-ads.com,-spam.com`
+
+#### **Usage Methods**
+
