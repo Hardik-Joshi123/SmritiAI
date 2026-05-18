@@ -114,3 +114,20 @@ SmritiAI is a Firefox browser extension that uses AI-powered semantic search to 
 
 4. **Load in Firefox**
    - Open Firefox
+   - Go to `about:debugging`
+   - Click "This Firefox"
+   - Click "Load Temporary Add-on"
+   - Select the `manifest.json` file from the `dist` folder
+
+### Development Mode
+
+For development with hot reload:
+```bash
+npm run dev
+```
+
+## 📖 Usage
+
+### Basic Search
+
+1. Click the SmritiAI icon in your browser toolbar or use `Ctrl+E`
