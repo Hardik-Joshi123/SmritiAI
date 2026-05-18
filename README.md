@@ -131,3 +131,19 @@ npm run dev
 ### Basic Search
 
 1. Click the SmritiAI icon in your browser toolbar or use `Ctrl+E`
+2. Type your search query in natural language
+3. View results with clickable links to your previously visited pages
+
+### First-Time Setup
+
+When you first install SmritiAI, you'll see a welcome message offering to process your existing browser history. This will:
+
+- Generate AI embeddings for your past browsing history
+- Make your entire browsing history searchable with semantic search
+- Allow you to choose how far back to process (last week, month, year, etc.)
+
+You can skip this step and process your history later from the settings.
+
+### Slash Commands
+
+- `/clear` - Clear chat history
