@@ -181,3 +181,19 @@ SmritiAI supports powerful domain filtering to help you focus on specific websit
 #### **Examples**
 
 - **Research without distractions**: `/domain:-ads.com,-marketing.com,-spam.com`
+- **Academic sources only**: `/domain:wikipedia.org,arxiv.org,scholar.google.com`
+- **Development resources**: `/domain:github.com,stackoverflow.com,developer.mozilla.org`
+
+#### **Features**
+- **Auto-complete**: Suggests domains from your browsing history
+- **Visual feedback**: Button highlights when filters are active
+- **Smart search**: Automatically searches 3x more results when filtering to ensure relevant matches
+- **Session-based**: Filters persist during your session but reset on reload
+
+### Settings
+
+Access settings through the dropdown menu or `/settings` command:
+
+- **Search Results**: Configure number of results returned
+- **HNSW Parameters**: Adjust search quality and performance
+- **Index Management**: Rebuild search index
