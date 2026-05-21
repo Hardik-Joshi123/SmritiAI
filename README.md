@@ -214,3 +214,20 @@ Access settings through the dropdown menu or `/settings` command:
 - **autoIndex** (true): Automatically index new pages
 
 ## 📁 Project Structure
+
+```
+SmritiAI/
+├── src/
+│   ├── background/              # Background script modules
+│   │   ├── background.js        # Main entry point and AI pipeline
+│   │   ├── handlers/            # Message handlers
+│   │   │   ├── message-router.js
+│   │   │   ├── search-handler.js
+│   │   │   ├── page-processor.js
+│   │   │   ├── history-processor.js
+│   │   │   ├── data-handler.js
+│   │   │   └── settings-handler.js
+│   │   ├── services/            # Core services
+│   │   │   └── embedding-service.js
+│   │   └── utils/               # Utility functions
+│   │       └── message-helpers.js
