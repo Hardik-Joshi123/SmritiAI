@@ -164,3 +164,20 @@ SmritiAI supports powerful domain filtering to help you focus on specific websit
 
 #### **Usage Methods**
 
+**1. UI Method:**
+1. Click the "🌐 Domain Filter" button in the sidebar
+2. Enter your filter criteria in the input field
+3. Click "Apply" to activate the filter
+
+**2. Slash Commands:**
+```
+/domain:github.com                    # Include only GitHub
+/domain:github.com,stackoverflow.com  # Include GitHub and StackOverflow
+/domain:-ads.com,-tracker.com         # Exclude ads and trackers
+/domain:github.com,-ads.com           # Include GitHub, exclude ads
+/domain:clear                         # Clear all filters
+```
+
+#### **Examples**
+
+- **Research without distractions**: `/domain:-ads.com,-marketing.com,-spam.com`
