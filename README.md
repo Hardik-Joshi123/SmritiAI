@@ -197,3 +197,20 @@ Access settings through the dropdown menu or `/settings` command:
 - **Search Results**: Configure number of results returned
 - **HNSW Parameters**: Adjust search quality and performance
 - **Index Management**: Rebuild search index
+- **Browser History Processing**: Process existing browser history to make it searchable
+- **Data Export/Import**: Backup and restore your data
+
+## 🔧 Configuration
+
+### HNSW Parameters
+
+- **ef** (200): Search quality parameter (higher = better accuracy, slower search)
+- **M** (16): Number of connections (higher = better accuracy, more memory)
+- **maxElements** (10000): Maximum pages that can be indexed
+
+### Search Settings
+
+- **searchResultCount** (5): Number of search results to return
+- **autoIndex** (true): Automatically index new pages
+
+## 📁 Project Structure
