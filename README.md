@@ -264,3 +264,20 @@ SmritiAI/
 ## 🛠️ Development
 
 ### Building
+
+- **Development build**: `npm run dev`
+- **Production build**: `npm run build`
+- **Package for store**: `npm run package` - Creates a zip file ready for Firefox Add-ons store upload
+
+### Code Organization
+
+The codebase follows a modular architecture with clear separation of concerns:
+
+- **Background modules**: Handle AI processing, message routing, and data management
+- **Sidebar modules**: Manage UI components, user interactions, and state
+- **Shared modules**: Provide common functionality for database and search operations
+- **ES6 modules**: All code uses modern JavaScript import/export syntax
+- **Single responsibility**: Each module has one clear purpose and well-defined interface
+
+### Development Guidelines
+
