@@ -247,3 +247,20 @@ SmritiAI/
 │   │   ├── services/            # UI services
 │   │   │   └── message-service.js
 │   │   └── utils/               # UI utilities
+│   │       ├── dom-helpers.js
+│   │       └── storage-helpers.js
+│   ├── content.js               # Content extraction script
+│   ├── db.js                    # Database layer with Dexie
+│   ├── search.js                # HNSW search implementation
+│   ├── sidebar.html             # Main UI HTML
+│   └── sidebar.css              # Styling and themes
+├── public/
+│   └── icon/                    # Extension icons
+├── manifest.json                # Extension manifest
+├── package.json                 # Dependencies and scripts
+└── vite.config.ts               # Build configuration
+```
+
+## 🛠️ Development
+
+### Building
