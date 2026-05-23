@@ -231,3 +231,19 @@ SmritiAI/
 │   │   │   └── embedding-service.js
 │   │   └── utils/               # Utility functions
 │   │       └── message-helpers.js
+│   ├── sidebar/                 # UI modules
+│   │   ├── sidebar.js           # Main UI entry point
+│   │   ├── components/          # UI components
+│   │   │   ├── chat-interface.js
+│   │   │   ├── command-system.js
+│   │   │   ├── settings-modal.js
+│   │   │   ├── confirmation-modal.js
+│   │   │   ├── header-dropdown.js
+│   │   │   └── theme-manager.js
+│   │   ├── handlers/            # UI handlers
+│   │   │   ├── first-time-handler.js
+│   │   │   ├── stats-handler.js
+│   │   │   └── data-handler.js
+│   │   ├── services/            # UI services
+│   │   │   └── message-service.js
+│   │   └── utils/               # UI utilities
