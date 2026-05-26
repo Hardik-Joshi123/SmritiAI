@@ -281,3 +281,19 @@ The codebase follows a modular architecture with clear separation of concerns:
 
 ### Development Guidelines
 
+- Keep modules focused and small (< 100 lines when possible)
+- Use clear naming conventions for files and functions
+- Document public interfaces and complex logic
+- Test modules independently before integration
+- Follow the established patterns for message passing and error handling
+
+### Key Dependencies
+
+- **@xenova/transformers**: Transformer.js for AI embeddings
+- **hnswlib-wasm**: WebAssembly HNSW implementation
+- **dexie**: IndexedDB wrapper for data storage
+- **@mozilla/readability**: Content extraction
+- **vite-plugin-web-extension**: Build tool for extensions
+
+## 🔒 Privacy & Security
+
