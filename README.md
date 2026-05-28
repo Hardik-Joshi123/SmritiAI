@@ -297,3 +297,20 @@ The codebase follows a modular architecture with clear separation of concerns:
 
 ## 🔒 Privacy & Security
 
+- All data processing happens locally in your browser
+- No data is sent to external servers
+- Embeddings and search index are stored locally
+- Browser history access is limited to extension functionality
+
+## 🐛 Known Issues
+
+- Large pages may take longer to process
+- Initial model loading requires internet connection
+- Maximum index size is limited by browser storage
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
