@@ -314,3 +314,20 @@ The codebase follows a modular architecture with clear separation of concerns:
 2. Create a feature branch
 3. Make your changes
 4. Test thoroughly
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Mozilla Readability for content extraction
+- Xenova for Transformer.js
+- HNSW algorithm implementation
+- Vite ecosystem for build tools
+
+---
+
+**Note**: This extension requires Firefox and uses Manifest V2. Future versions may include Chrome support with Manifest V3.
+
